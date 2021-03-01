@@ -2,7 +2,6 @@ import pandas as pd
 df = pd.read_csv('paired.csv')
 
 df_h = df.sort_values(by=["heavy_v_gene", "heavy_j_gene", "heavy_cdr3_aa_length"])
-df_l = df.sort_values(by=["light_v_gene", "light_j_gene", "light_cdr3_aa_length"])
 
 f = open('heavy.dat', 'w')
 
@@ -55,56 +54,6 @@ for index,row in df_h.iterrows():
 
     #if v=="IGHV1-18" and j = 'IGHJ2'
     
-    f.write(line + '\n')
-    
-    last_v = v
-    last_j = j
-    last_cdr3len = cdr3len
-    
-f.write("END\n")
-
-f.close()
-
-f = open('light.dat', 'w')
-
-last_v = ""
-last_j = ""
-last_cdr3len = -1
-last_end = False
-
-for index,row in df_l.iterrows():
-
-    v = str(row['light_v_gene'])
-    j = str(row['light_j_gene'])
-    cdr3len = str(row['light_cdr3_aa_length'])
-    cdr3_nt = str(row['light_cdr3_(dna)'])
-    if cdr3_nt.find('-') != -1:
-        continue
-    vdj = str(row['light_nt_trimmed']).replace("-","")
-    
-    if last_cdr3len == -1:
-        last_v = v
-        last_j = j
-        last_cdr3len = cdr3len
-    elif (last_v!=v or last_j!=j or last_cdr3len!=cdr3len):
-        if last_end == False:
-            f.write("END\n")
-            #last_end = True
-        #else:
-            #last_end = False
-    
-    raw_iso = str(row['light_isotype'])
-    if raw_iso.find('IGK')!=-1:
-        iso = "IgK"
-    elif raw_iso.find('IGL')!=-1:
-        iso = "IgL"
-    else:
-        iso = "NA"
-
-    idstr = str(row['run_id']) + "_" + str(row['sample_id']) + "_" + str(row['clonotype_id'])
-    
-    line = idstr + " " + str(iso) + " 10x " + str(v) + " " + str(j) + " " + str(row['light_cdr3_(aa)']) + " " + cdr3_nt + " " + vdj + " " + str(row['light_percent_id'])
-
     f.write(line + '\n')
     
     last_v = v
