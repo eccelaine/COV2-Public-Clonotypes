@@ -20,7 +20,8 @@ This repo contains code used for the manuscript: Convergent antibody responses t
 
 # Heat Map generation
 1. Identification of VJ combinations
-- Run your sequences through the script VJcombos.py
+- Your sequences should be formatted as: ID,heavy_v,heavy_j,light_v,light_j
+- Run this input file through the script VJcombos.py. 
 
 2. Create heat map
 - Take output file from step 1 and run it through heatmaps.py
